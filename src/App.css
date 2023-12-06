@@ -1,35 +1,129 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
+  font-size: 14px;
 }
 
+
 .App {
+  min-width: 300px;
   padding: 30px;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .App > div {
   margin-right: 50px;
 }
+button {
+  cursor: pointer;
+}
 
 .todoList {
+  min-width: 302px;
+  min-height: 280px;
   background-color: #b0fcfc;
   border: 1px solid black;
   border-radius: 5px;
-  padding: 15px;
+  padding: 10px;
+}
+.todoList h3 {
+  margin-left: 30px;
+  font-size: 1.6em;
 }
 
 .taskForm {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.4em;
   background-color: #cdfde2;
   border: 1px solid #284d29;
   border-radius: 5px;
   padding: 10px;
   margin-top: 3px;
 }
+.inputError {
+  min-width: 150px;
+  border: 2px solid red;
+  border-radius: 5px;
+  outline: none;
+}
+.inputDefault {
+  min-width: 150px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .taskList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin: 10px 30px;
+}
+.taskList-info {
+  display: flex;
+  justify-content: space-around;
+  padding: 2px;
+  margin: 5px;
+}
+.info {
+  margin-left: 4px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  border-radius: 100%;
+}
+.taskList-info div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 6px;
+  background-color: #e0fffb;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  /*border: 1px solid black;*/
+}
+.span {
+  min-height: 122px;
+}
+
+.list {
+  /*transition-duration: 6s;*/
+  list-style: none;
+  min-height: 122px;
+}
+.list input {
+  margin-right: 5px;
+  cursor: pointer;
+}
+.task {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0;
+  background-color: white;
+  border: 2px solid black;
+  padding: 4px;
+  border-radius: 5px;
+}
+.task:hover{
+  background-color: rgba(238, 238, 238, 0.67);
+  border: 2px solid black;
+}
+.taskDone {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+  background-color: #d0fffb;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 5px;
+}
+.taskDone:hover{
+  background-color: rgba(238, 238, 238, 0.67);
+  border: 1px solid black;
 }
 
 .mybuttons {
@@ -42,4 +136,38 @@
   color: white;
   margin-left: 4px;
   padding: 2px;
+}
+.btn-active {
+  margin-right: 5px;
+  padding: 5px;
+  background-color: black;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color .5s ease-in;
+}
+
+.btn {
+  margin-right: 5px;
+  padding: 5px 6px ;
+  background-color: white;
+  border-radius: 5px;
+  color: black;
+}
+
+.btnX-active {
+  padding: 0 5px;
+  min-width: 30px;
+  background-color: black;
+  color: #fff;
+  border-radius: 5px;
+  transition: background-color .2s ease-in;
+}
+
+.btnX {
+  padding: 0 5px;
+  min-width: 30px;
+  background-color: white;
+  border-radius: 5px;
+  color: black;
 }

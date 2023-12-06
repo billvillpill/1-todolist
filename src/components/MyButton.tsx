@@ -4,14 +4,15 @@ type MyButtonPropsType = {
     name: string
     onClickHandler: () => void
     disabled?: boolean
+    classes?: string
 }
 export const MyButton: FC<MyButtonPropsType> = (props: MyButtonPropsType) => {
     return (
-        <button className='buttonItem'
+        <button className={props.classes}
             type="submit"
             onClick={props.onClickHandler}
             disabled={props.disabled}
-        >{props.name}</button>
+        ><span>{props.name}</span></button>
     );
 };
 

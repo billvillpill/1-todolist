@@ -1,12 +1,13 @@
 import React, {ChangeEvent, FC, useState, KeyboardEvent} from 'react';
-import {MyButton} from "./MyButton";
-import {TaskList} from "./TaskList";
+import {MyButton} from './MyButton';
+import {TaskList} from './TaskList';
 
 type TodolistPropsType = {
     title: string
     tasks: Array<TaskType>
     removeTask: (tasksId: string) => void
     addTask: (title: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 export type TaskType = {
     id: string
@@ -22,49 +23,84 @@ export const Todolist: FC<TodolistPropsType> = (
         title,
         tasks,
         removeTask,
-        addTask
+        addTask,
+        changeTaskStatus
     }) => {
-    let [newTaskTitle, setNewTaskTitle] = useState('')
+    const [newTaskTitle, setNewTaskTitle] = useState('')
+    const [inputError, setInputError] = useState(false)
+    const [isCollapsedTodo, setIsCollapsedTodo] = useState(false)
+    /*let [tasksLength, setTasksLength] = useState(true)*/
 
     // проверка на длину вводимого сообщения
     // лучше функцию прокидывать через props, тут не писать
     const maxTitleLengthError = newTaskTitle.length >= 15
-    const onChangeInputHadler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeSetTitle = (event: ChangeEvent<HTMLInputElement>) => {
+        inputError && setInputError(false)
         if(event.currentTarget.value.length <= 15) {
             setNewTaskTitle(event.currentTarget.value)
         }
     }
 
     const onKeyDownAddTeask = (event: KeyboardEvent<HTMLInputElement>) => {
-        event.key === 'Enter' && Boolean(newTaskTitle) && onClickButtonHundler()
+        event.key === 'Enter' && Boolean(newTaskTitle) && onClickAddTask()
     }
 
-    const onClickButtonHundler = () => {
-        addTask(newTaskTitle)
+    const onClickAddTask = () => {
+        const trimmedTittle = newTaskTitle.trim()
+        if (trimmedTittle) {
+            addTask(trimmedTittle)
+        } else {
+            setInputError(true)
+        }
         setNewTaskTitle('')
     }
 
+    const tasksList = <TaskList
+        tasks={tasks}
+        removeTask={removeTask}
+        changeTaskStatus={changeTaskStatus}
+    />
+
     return (
-        <div className={"todoList"}>
+        <div className={'todoList'}>
             <h3>{title}</h3>
 
-            <div className={"taskForm"}>
+            <div className='taskList-info'>
+                <div>
+                    <div><span>{isCollapsedTodo ? 'show' : 'hide'}</span></div>
+                    <input
+                        type='checkbox'
+                        checked={isCollapsedTodo}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setIsCollapsedTodo(e.currentTarget.checked)}
+                    />
+                </div>
+                <div>All task:<div className='info'><span>{tasks.length}</span></div></div>
+            </div>
+
+            <div className={'taskForm'}>
                 <input
                     value={newTaskTitle}
-                    onChange={onChangeInputHadler}
+                    onChange={onChangeSetTitle}
                     onKeyDown={onKeyDownAddTeask}
+                    className={inputError || maxTitleLengthError ? 'inputError' : 'inputDefault' }
                 />
                 <MyButton
                     name={"+"}
-                    onClickHandler={onClickButtonHundler}
+                    onClickHandler={onClickAddTask}
                     disabled={!newTaskTitle || maxTitleLengthError}
+                    classes={'btn-active'}
                 />
             </div>
+
+            {inputError && <div style={{color: 'red'}}>
+                <p>Please, enter correct title</p>
+            </div>}
             {maxTitleLengthError && <div style={{color: 'red'}}>
                 <p>Your tasktitle is too long.</p>
                 <p> Maximum length 15 characters.</p>
             </div>}
-            <TaskList tasks={tasks} removeTask={removeTask}/>
+
+            {isCollapsedTodo ? null : tasksList}
         </div>
     );
 };

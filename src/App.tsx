@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./components/Todolist";
+import {TaskType, Todolist} from './components/Todolist';
 import {v1} from 'uuid';
 
 //create
@@ -10,12 +10,12 @@ import {v1} from 'uuid';
 
 function App() {
     // BLL: бизнес логика
-    const todoListTitle_1: string = "What to learn"
+    const todoListTitle_1: string = 'What to learn'
 
     const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: v1(), title: "HTML", isDone: true},
-        {id: v1(), title: "JS/ES6", isDone: false},
-        {id: v1(), title: "REACT", isDone: false},
+        {id: v1(), title: 'HTML', isDone: true},
+        {id: v1(), title: 'JS/ES6', isDone: false},
+        {id: v1(), title: 'REACT', isDone: false},
 
     ])
 
@@ -33,15 +33,20 @@ function App() {
         }
         setTasks([newTask,...tasks])
     }
+    //update task (isDone)
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        setTasks(tasks.map(t => t.id === taskId ? { ...t, isDone } : t))
+    }
 
     //UI интерфейс
     return (
-        <div className="App">
+        <div className='App'>
             <Todolist
                 title={todoListTitle_1}
                 tasks={tasks}
                 removeTask={removeTask}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     );
