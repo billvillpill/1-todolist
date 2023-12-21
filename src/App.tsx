@@ -3,51 +3,87 @@ import './App.css';
 import {TaskType, Todolist} from './components/Todolist';
 import {v1} from 'uuid';
 
-//create
+//create +
 //read +
-//update
+//update +
 //delete +
-
+type todoListsType = {id: string, title: string, filter: FilterValuesType}
+export type FilterValuesType = 'all' | 'active' | 'completed'
 function App() {
     // BLL: бизнес логика
-    const todoListTitle_1: string = 'What to learn'
+    let todolistsID1 = v1();
+    let todolistsID2 = v1();
 
-    const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: v1(), title: 'HTML', isDone: true},
-        {id: v1(), title: 'JS/ES6', isDone: false},
-        {id: v1(), title: 'REACT', isDone: false},
-
+    let [todolists, setTodolist] = useState<Array<todoListsType>>([
+        {id: todolistsID1, title: 'What to learn', filter: 'all'},
+        {id: todolistsID2, title: 'What to buy', filter: 'all'},
     ])
+    let [tasks, setTasks] = useState({
+        [todolistsID1]: [
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+            {id: v1(), title: 'Rest API', isDone: false},
+            {id: v1(), title: 'GraphQL', isDone: false},
+        ],
+        [todolistsID2]: [
+            {id: v1(), title: 'HTML&CSS2', isDone: true},
+            {id: v1(), title: 'JS2', isDone: true},
+            {id: v1(), title: 'ReactJS2', isDone: false},
+            {id: v1(), title: 'Rest API2', isDone: false},
+            {id: v1(), title: 'GraphQL2', isDone: false},
+        ]
+    });
+
+    // const [filter, setFilter] = useState<FilterValuesType>('all');
 
     // delete task
-    const removeTask = (tasksId: string) => {
-        setTasks(tasks.filter((t)=> t.id !== tasksId))
-    }
+    const removeTask = (todoListID: string, tasksId: string) => {
+        setTasks({...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== tasksId)});
+    };
 
     // create task
-    const addTask = (title: string) => {
+    const addTask = (todoListID: string, title: string) => {
         const newTask: TaskType = {
             id: v1(),
             title: title,
             isDone: false
-        }
-        setTasks([newTask,...tasks])
-    }
+        };
+        setTasks({...tasks, [todoListID]: [...tasks[todoListID], newTask]});
+    };
     //update task (isDone)
-    const changeTaskStatus = (taskId: string, isDone: boolean) => {
-        setTasks(tasks.map(t => t.id === taskId ? { ...t, isDone } : t))
+    const changeTaskStatus = (todoListID: string, taskId: string, isDone: boolean) => {
+        setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === taskId ? {...el, isDone} : el)});
+    };
+
+    const changeFilter = (todoListID: string, value: FilterValuesType) => {
+        setTodolist(todolists.map(el => el.id === todoListID ? {...el, filter:value} : el))
     }
+    const removeTodoList = (todoListID: string) => {
+        setTodolist(todolists.filter(el => el.id !== todoListID));
+        delete tasks[todoListID]
+    }
+
 
     //UI интерфейс
     return (
-        <div className='App'>
-            <Todolist
-                title={todoListTitle_1}
-                tasks={tasks}
-                removeTask={removeTask}
-                addTask={addTask}
-                changeTaskStatus={changeTaskStatus}
-            />
+        <div className="App">
+            {todolists.map(el => {
+                return (
+                    <Todolist
+                        key={el.id}
+                        todoListID={el.id}
+                        title={el.title}
+                        tasks={tasks[el.id]}
+                        removeTask={removeTask}
+                        addTask={addTask}
+                        changeTaskStatus={changeTaskStatus}
+                        changeFilter={changeFilter}
+                        filter={el.filter}
+                        removeTodoList={removeTodoList}
+                    />
+                )
+            })}
         </div>
     );
 }

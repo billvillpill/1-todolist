@@ -171,3 +171,21 @@ button {
   border-radius: 5px;
   color: black;
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.delete-todolist {
+  width: 27px;
+  height: 27px;
+  margin-right: 2px;
+  padding: 2px 3px ;
+  background-color: #000000;
+  border-radius: 5px;
+  color: white;
+}
+.delete-todolist:hover{
+  background-color: rgba(255, 0, 0, 0.67);
+  border: 1px solid black;
+  font-weight: bold;
+}
