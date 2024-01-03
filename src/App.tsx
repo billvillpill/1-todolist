@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './components/Todolist';
 import {v1} from 'uuid';
+import {AddItemForm} from "./components/AddItemForm";
 
 //create +
 //read +
@@ -55,7 +56,6 @@ function App() {
     const changeTaskStatus = (todoListID: string, taskId: string, isDone: boolean) => {
         setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === taskId ? {...el, isDone} : el)});
     };
-
     const changeFilter = (todoListID: string, value: FilterValuesType) => {
         setTodolist(todolists.map(el => el.id === todoListID ? {...el, filter:value} : el))
     }
@@ -63,27 +63,37 @@ function App() {
         setTodolist(todolists.filter(el => el.id !== todoListID));
         delete tasks[todoListID]
     }
-
+    const addTodolist = (newTitle: string) => {
+        const newID = v1();
+        const newTodo: todoListsType = {id: newID, title: newTitle, filter: 'all'};
+        setTodolist([...todolists, newTodo]);
+        setTasks({ ...tasks, [newID]: [] });
+    }
 
     //UI интерфейс
     return (
         <div className="App">
-            {todolists.map(el => {
-                return (
-                    <Todolist
-                        key={el.id}
-                        todoListID={el.id}
-                        title={el.title}
-                        tasks={tasks[el.id]}
-                        removeTask={removeTask}
-                        addTask={addTask}
-                        changeTaskStatus={changeTaskStatus}
-                        changeFilter={changeFilter}
-                        filter={el.filter}
-                        removeTodoList={removeTodoList}
-                    />
-                )
-            })}
+           <AddItemForm callback={addTodolist} />
+            <div className='flexWrapper'>
+                <div className='todoLists'>
+                    {todolists.map(el => {
+                        return (
+                            <Todolist
+                                key={el.id}
+                                todoListID={el.id}
+                                title={el.title}
+                                tasks={tasks[el.id]}
+                                removeTask={removeTask}
+                                callback={addTask}
+                                changeTaskStatus={changeTaskStatus}
+                                changeFilter={changeFilter}
+                                filter={el.filter}
+                                removeTodoList={removeTodoList}
+                            />
+                        )
+                    })}
+                </div>
+            </div>
         </div>
     );
 }

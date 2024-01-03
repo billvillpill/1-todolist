@@ -9,7 +9,7 @@ type TodolistPropsType = {
     title: string
     tasks: Array<TaskType>
     removeTask: (todoListID: string, tasksId: string) => void
-    addTask: (todoListID: string, title: string) => void
+    callback: (todoListID: string, title: string) => void
     changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
     changeFilter: (todoListID: string, value: FilterValuesType) => void
@@ -30,7 +30,7 @@ export const Todolist: FC<TodolistPropsType> = (
         title,
         tasks,
         removeTask,
-        addTask,
+        callback,
         changeTaskStatus,
         filter,
         changeFilter,
@@ -49,6 +49,9 @@ export const Todolist: FC<TodolistPropsType> = (
     />
     const removeTodoListHundler = () => {
         removeTodoList(todoListID)
+    }
+    const addTaskHandler = (title: string) => {
+        callback(todoListID, title)
     }
 
     return (
@@ -74,8 +77,7 @@ export const Todolist: FC<TodolistPropsType> = (
                 <div>All task:<div className='info'><span>{tasks.length}</span></div></div>
             </div>
 
-            <AddItemForm addTask={addTask} todoListID={todoListID}/>
-
+            <AddItemForm callback={addTaskHandler} />
 
             {isCollapsedTodo ? null : tasksList}
         </div>

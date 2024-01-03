@@ -2,6 +2,7 @@ import React, {ChangeEvent, FC} from 'react';
 import {MyButton} from './MyButton';
 import {TaskType} from './Todolist';
 import {FilterValuesType} from '../App';
+import {EditableSpan} from "./EditableSpan";
 
 type TaskListPropsType = {
     todoListID: string
@@ -52,7 +53,8 @@ export const TaskList: FC<TaskListPropsType> = ({
                                     checked={t.isDone}
                                     onChange={onChangeTaskStatusHundler}
                                 />
-                                <span>{t.title}</span>
+                                <EditableSpan title={t.title}/>
+
                             </div>
                             <MyButton name={'delete'} onClickHandler={onClickRemoveTask}
                                       classes={t.isDone ? 'btnX-active' : 'btnX'}/>

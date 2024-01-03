@@ -2,8 +2,7 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {MyButton} from "./MyButton";
 
 type AddItemFormPropsType = {
-    addTask: (todoListID: string, title: string) => void
-    todoListID: string
+    callback: (title: string) => void
 }
 export const AddItemForm = (props: AddItemFormPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('')
@@ -21,13 +20,13 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     }
 
     const onKeyDownAddTeask = (event: KeyboardEvent<HTMLInputElement>) => {
-        event.key === 'Enter' && Boolean(newTaskTitle) && onClickAddTask()
+        event.key === 'Enter' && Boolean(newTaskTitle) && addTaskHandler()
     }
 
-    const onClickAddTask = () => {
+    const addTaskHandler = () => {
         const trimmedTittle = newTaskTitle.trim()
         if (trimmedTittle) {
-            props.addTask(props.todoListID, trimmedTittle)
+            props.callback(trimmedTittle)
         } else {
             setInputError(true)
         }
@@ -44,7 +43,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                 />
                 <MyButton
                     name={"+"}
-                    onClickHandler={onClickAddTask}
+                    onClickHandler={addTaskHandler}
                     disabled={!newTaskTitle || maxTitleLengthError}
                     classes={'btn-active'}
                 />
