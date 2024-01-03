@@ -36,6 +36,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         <>
             <div className={'taskForm'}>
                 <input
+                    type='text'
                     value={newTaskTitle}
                     onChange={onChangeSetTitle}
                     onKeyDown={onKeyDownAddTeask}

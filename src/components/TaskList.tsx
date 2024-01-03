@@ -11,6 +11,8 @@ type TaskListPropsType = {
     changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
     changeFilter: (todoListID: string, value: FilterValuesType) => void
+    updateTask: (todoListID: string, tasksId: string, newTaskTitle: string) => void
+
 }
 
 // элемент списка
@@ -20,7 +22,8 @@ export const TaskList: FC<TaskListPropsType> = ({
                                                     removeTask,
                                                     changeTaskStatus,
                                                     filter,
-                                                    changeFilter
+                                                    changeFilter,
+                                                    updateTask
                                                 }) => {
     const filteredTasks: Array<TaskType> = filter === 'active'
         ? tasks.filter(t => !t.isDone)
@@ -36,6 +39,8 @@ export const TaskList: FC<TaskListPropsType> = ({
     //             filteredTasks = tasks.filter(t => t.isDone === true);
     //         }
     //     });
+    /*обновление таски*/
+    const  updateTaskHandler = (tasksID: string, newTaskTitle: string) => updateTask(todoListID, tasksID, newTaskTitle)
 
     // условный рендоринг
     const listItems: JSX.Element = filteredTasks.length === 0
@@ -43,7 +48,9 @@ export const TaskList: FC<TaskListPropsType> = ({
         : <ul className={'list'}>
             {
                 filteredTasks.map((t: TaskType) => {
+                    /*удаления таски*/
                     const onClickRemoveTask = () => removeTask(todoListID, t.id);
+                    /*изменения таски*/
                     const onChangeTaskStatusHundler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todoListID, t.id, e.currentTarget.checked);
                     return (
                         <li key={t.id} className={t.isDone ? 'task' : 'taskDone'}>
@@ -53,7 +60,7 @@ export const TaskList: FC<TaskListPropsType> = ({
                                     checked={t.isDone}
                                     onChange={onChangeTaskStatusHundler}
                                 />
-                                <EditableSpan title={t.title}/>
+                                <EditableSpan oldTitle={t.title} callBack={(newTaskTitle)=> updateTaskHandler(t.id, newTaskTitle)}/>
 
                             </div>
                             <MyButton name={'delete'} onClickHandler={onClickRemoveTask}

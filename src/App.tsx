@@ -8,8 +8,9 @@ import {AddItemForm} from "./components/AddItemForm";
 //read +
 //update +
 //delete +
-type todoListsType = {id: string, title: string, filter: FilterValuesType}
+type todoListsType = { id: string, title: string, filter: FilterValuesType }
 export type FilterValuesType = 'all' | 'active' | 'completed'
+
 function App() {
     // BLL: бизнес логика
     let todolistsID1 = v1();
@@ -36,8 +37,6 @@ function App() {
         ]
     });
 
-    // const [filter, setFilter] = useState<FilterValuesType>('all');
-
     // delete task
     const removeTask = (todoListID: string, tasksId: string) => {
         setTasks({...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== tasksId)});
@@ -57,7 +56,7 @@ function App() {
         setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === taskId ? {...el, isDone} : el)});
     };
     const changeFilter = (todoListID: string, value: FilterValuesType) => {
-        setTodolist(todolists.map(el => el.id === todoListID ? {...el, filter:value} : el))
+        setTodolist(todolists.map(el => el.id === todoListID ? {...el, filter: value} : el))
     }
     const removeTodoList = (todoListID: string) => {
         setTodolist(todolists.filter(el => el.id !== todoListID));
@@ -67,13 +66,19 @@ function App() {
         const newID = v1();
         const newTodo: todoListsType = {id: newID, title: newTitle, filter: 'all'};
         setTodolist([...todolists, newTodo]);
-        setTasks({ ...tasks, [newID]: [] });
+        setTasks({...tasks, [newID]: []});
+    }
+    const updateTask = (todoListID: string, tasksId: string, newTaskTitle: string) => {
+        setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === tasksId ? {...el, title: newTaskTitle} : el)})
+    }
+    const updateTodoList = (todoListID: string, newTaskTitle: string) => {
+        setTodolist(todolists.map(el => el.id === todoListID ? {...el, title: newTaskTitle} : el))
     }
 
     //UI интерфейс
     return (
         <div className="App">
-           <AddItemForm callback={addTodolist} />
+            <AddItemForm callback={addTodolist}/>
             <div className='flexWrapper'>
                 <div className='todoLists'>
                     {todolists.map(el => {
@@ -89,6 +94,8 @@ function App() {
                                 changeFilter={changeFilter}
                                 filter={el.filter}
                                 removeTodoList={removeTodoList}
+                                updateTask={updateTask}
+                                updateTodoList={updateTodoList}
                             />
                         )
                     })}

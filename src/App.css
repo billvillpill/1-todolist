@@ -41,16 +41,20 @@ button {
 }
 
 .todoList {
-  min-width: 302px;
+  min-width: 320px;
   min-height: 280px;
   background-color: #b0fcfc;
   border: 1px solid black;
   border-radius: 5px;
   padding: 10px;
 }
-.todoList h3 {
+.todoList h3 span {
   margin-left: 30px;
   font-size: 1.6em;
+  cursor: pointer;
+}
+.todoList h3 span:hover{
+  color: rgba(0, 0, 0, 0.68);
 }
 
 .taskForm {
@@ -128,9 +132,11 @@ button {
   padding: 4px;
   border-radius: 5px;
 }
-.task:hover{
+.task span:hover {
   background-color: rgba(238, 238, 238, 0.67);
-  border: 2px solid black;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.50);
+  border-radius: 3px;
 }
 .taskDone {
   display: flex;
@@ -141,9 +147,11 @@ button {
   padding: 5px;
   border-radius: 5px;
 }
-.taskDone:hover{
+.taskDone span:hover{
   background-color: rgba(238, 238, 238, 0.67);
-  border: 1px solid black;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.50);
+  border-radius: 3px;
 }
 
 .mybuttons {

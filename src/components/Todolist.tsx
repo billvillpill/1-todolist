@@ -1,8 +1,9 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, {ChangeEvent, FC, MouseEventHandler, useState} from 'react';
 import {MyButton} from './MyButton';
 import {TaskList} from './TaskList';
 import {FilterValuesType} from '../App';
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type TodolistPropsType = {
     todoListID: string
@@ -14,6 +15,8 @@ type TodolistPropsType = {
     filter: FilterValuesType
     changeFilter: (todoListID: string, value: FilterValuesType) => void
     removeTodoList: (todoListID: string) => void
+    updateTask: (todoListID: string, tasksId: string, newTaskTitle: string) => void
+    updateTodoList: (todoListID: string, newTaskTitle: string) => void
 }
 export type TaskType = {
     id: string
@@ -34,7 +37,9 @@ export const Todolist: FC<TodolistPropsType> = (
         changeTaskStatus,
         filter,
         changeFilter,
-        removeTodoList
+        removeTodoList,
+        updateTask,
+        updateTodoList
     }) => {
     const [isCollapsedTodo, setIsCollapsedTodo] = useState(false)
 
@@ -46,6 +51,7 @@ export const Todolist: FC<TodolistPropsType> = (
         changeTaskStatus={changeTaskStatus}
         filter={filter}
         changeFilter={changeFilter}
+        updateTask={updateTask}
     />
     const removeTodoListHundler = () => {
         removeTodoList(todoListID)
@@ -53,11 +59,15 @@ export const Todolist: FC<TodolistPropsType> = (
     const addTaskHandler = (title: string) => {
         callback(todoListID, title)
     }
+    const updateTodoListHandler = (newTaskTitle: string) => {
+        updateTodoList(todoListID, newTaskTitle)
+    }
 
     return (
         <div className={'todoList'}>
             <div className={'header'}>
-                <h3>{title}</h3>
+                <h3><EditableSpan oldTitle={title} callBack={updateTodoListHandler} />
+                </h3>
                 <MyButton
                     name={"x"}
                     onClickHandler={removeTodoListHundler}
