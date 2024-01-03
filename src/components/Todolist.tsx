@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, MouseEventHandler, useState} from 'react';
+import React, {ChangeEvent, FC, useState} from 'react';
 import {MyButton} from './MyButton';
 import {TaskList} from './TaskList';
 import {FilterValuesType} from '../App';
