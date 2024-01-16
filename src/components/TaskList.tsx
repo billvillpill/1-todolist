@@ -3,6 +3,8 @@ import {MyButton} from './MyButton';
 import {TaskType} from './Todolist';
 import {FilterValuesType} from '../App';
 import {EditableSpan} from "./EditableSpan";
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 
 type TaskListPropsType = {
     todoListID: string
@@ -55,11 +57,12 @@ export const TaskList: FC<TaskListPropsType> = ({
                     return (
                         <li key={t.id} className={t.isDone ? 'task' : 'taskDone'}>
                             <div>
-                                <input
+                                <Checkbox checked={t.isDone} onChange={onChangeTaskStatusHundler} />
+                                {/*<input
                                     type="checkbox"
                                     checked={t.isDone}
                                     onChange={onChangeTaskStatusHundler}
-                                />
+                                />*/}
                                 <EditableSpan oldTitle={t.title} callBack={(newTaskTitle)=> updateTaskHandler(t.id, newTaskTitle)}/>
 
                             </div>
@@ -79,21 +82,25 @@ export const TaskList: FC<TaskListPropsType> = ({
         <div className="taskList">
             {listItems}
             <div className="mybuttons">
-                <MyButton
-                    name="all"
-                    onClickHandler={onClickSetAllFilter}
-                    classes={filter === 'all' ? 'btn-active' : 'btn'}
-                />
-                <MyButton
-                    name="active"
-                    onClickHandler={onClickSetActiveFilter}
-                    classes={filter === 'active' ? 'btn-active' : 'btn'}
-                />
-                <MyButton
-                    name="completed"
-                    onClickHandler={onClickSetCompletedFilter}
-                    classes={filter === 'completed' ? 'btn-active' : 'btn'}
-                />
+                <Button variant='contained' color="secondary" onClick={onClickSetAllFilter} className={filter === 'all' ? 'btn-active' : 'btn'}>all</Button>
+                <Button variant='contained' color="success" onClick={onClickSetActiveFilter} className={filter === 'active' ? 'btn-active' : 'btn'}>active</Button>
+                <Button variant="contained" color="error" onClick={onClickSetCompletedFilter} className={filter === 'completed' ? 'btn-active' : 'btn'}>completed</Button>
+
+                {/*<MyButton*/}
+                {/*    name="all"*/}
+                {/*    onClickHandler={onClickSetAllFilter}*/}
+                {/*    classes={filter === 'all' ? 'btn-active' : 'btn'}*/}
+                {/*/>*/}
+                {/*<MyButton*/}
+                {/*    name="active"*/}
+                {/*    onClickHandler={onClickSetActiveFilter}*/}
+                {/*    classes={filter === 'active' ? 'btn-active' : 'btn'}*/}
+                {/*/>*/}
+                {/*<MyButton*/}
+                {/*    name="completed"*/}
+                {/*    onClickHandler={onClickSetCompletedFilter}*/}
+                {/*    classes={filter === 'completed' ? 'btn-active' : 'btn'}*/}
+                {/*/>*/}
             </div>
         </div>
     );

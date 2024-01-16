@@ -1,9 +1,11 @@
 import React, {ChangeEvent, FC, useState} from 'react';
-import {MyButton} from './MyButton';
 import {TaskList} from './TaskList';
 import {FilterValuesType} from '../App';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 type TodolistPropsType = {
     todoListID: string
@@ -68,11 +70,14 @@ export const Todolist: FC<TodolistPropsType> = (
             <div className={'header'}>
                 <h3><EditableSpan oldTitle={title} callBack={updateTodoListHandler} />
                 </h3>
-                <MyButton
-                    name={"x"}
-                    onClickHandler={removeTodoListHundler}
-                    classes='delete-todolist'
-                />
+                <IconButton aria-label="delete">
+                    <DeleteIcon />
+                </IconButton>
+                {/*<MyButton*/}
+                {/*    name={"x"}*/}
+                {/*    onClickHandler={removeTodoListHundler}*/}
+                {/*    classes='delete-todolist'*/}
+                {/*/>*/}
             </div>
 
             <div className='taskList-info'>
@@ -86,6 +91,7 @@ export const Todolist: FC<TodolistPropsType> = (
                 </div>
                 <div>All task:<div className='info'><span>{tasks.length}</span></div></div>
             </div>
+
 
             <AddItemForm callback={addTaskHandler} />
 

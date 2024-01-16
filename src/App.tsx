@@ -3,6 +3,7 @@ import './App.css';
 import {TaskType, Todolist} from './components/Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./components/AddItemForm";
+import {ButtonAppBar} from './components/ButtonApp';
 
 //create +
 //read +
@@ -79,27 +80,30 @@ function App() {
     //UI интерфейс
     return (
         <div className="App">
-            <AddItemForm callback={addTodolist}/>
-            <div className='flexWrapper'>
-                <div className='todoLists'>
-                    {todolists.map(el => {
-                        return (
-                            <Todolist
-                                key={el.id}
-                                todoListID={el.id}
-                                title={el.title}
-                                tasks={tasks[el.id]}
-                                removeTask={removeTask}
-                                addTask={addTask}
-                                changeTaskStatus={changeTaskStatus}
-                                changeFilter={changeFilter}
-                                filter={el.filter}
-                                removeTodoList={removeTodoList}
-                                updateTask={updateTask}
-                                updateTodoList={updateTodoList}
-                            />
-                        )
-                    })}
+            <ButtonAppBar />
+            <div className='container'>
+                <AddItemForm callback={addTodolist}/>
+                <div className='flexWrapper'>
+                    <div className='todoLists'>
+                        {todolists.map(el => {
+                            return (
+                                <Todolist
+                                    key={el.id}
+                                    todoListID={el.id}
+                                    title={el.title}
+                                    tasks={tasks[el.id]}
+                                    removeTask={removeTask}
+                                    addTask={addTask}
+                                    changeTaskStatus={changeTaskStatus}
+                                    changeFilter={changeFilter}
+                                    filter={el.filter}
+                                    removeTodoList={removeTodoList}
+                                    updateTask={updateTask}
+                                    updateTodoList={updateTodoList}
+                                />
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
