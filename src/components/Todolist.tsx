@@ -71,7 +71,7 @@ export const Todolist: FC<TodolistPropsType> = (
                 <h3><EditableSpan oldTitle={title} callBack={updateTodoListHandler} />
                 </h3>
                 <IconButton aria-label="delete">
-                    <DeleteIcon />
+                    <DeleteIcon onClick={removeTodoListHundler} />
                 </IconButton>
                 {/*<MyButton*/}
                 {/*    name={"x"}*/}
