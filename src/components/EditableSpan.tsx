@@ -8,7 +8,7 @@ export const EditableSpan = (props: EditableSpanProps) => {
     const [edit, setEdit] = useState(false);
     const [newTaskTitle, setNewTaskTitle] = useState(props.oldTitle)
     const activeEditHundler = () => {
-        props.callBack(newTaskTitle)
+        if(edit) props.callBack(newTaskTitle)
         setEdit(!edit)
 
     }
@@ -17,7 +17,7 @@ export const EditableSpan = (props: EditableSpanProps) => {
     }
     return (
         edit
-            ? <input value={newTaskTitle} type="text" onBlur={activeEditHundler} autoFocus onChange={onChangeSetTitle}/>
+            ? <input value={newTaskTitle} onBlur={activeEditHundler} autoFocus onChange={onChangeSetTitle}/>
             : <span onDoubleClick={activeEditHundler}>{props.oldTitle}</span>
     );
 };

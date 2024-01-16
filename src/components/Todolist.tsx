@@ -10,7 +10,7 @@ type TodolistPropsType = {
     title: string
     tasks: Array<TaskType>
     removeTask: (todoListID: string, tasksId: string) => void
-    callback: (todoListID: string, title: string) => void
+    addTask: (todoListID: string, title: string) => void
     changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
     changeFilter: (todoListID: string, value: FilterValuesType) => void
@@ -33,7 +33,7 @@ export const Todolist: FC<TodolistPropsType> = (
         title,
         tasks,
         removeTask,
-        callback,
+        addTask,
         changeTaskStatus,
         filter,
         changeFilter,
@@ -57,7 +57,7 @@ export const Todolist: FC<TodolistPropsType> = (
         removeTodoList(todoListID)
     }
     const addTaskHandler = (title: string) => {
-        callback(todoListID, title)
+        addTask(todoListID, title)
     }
     const updateTodoListHandler = (newTaskTitle: string) => {
         updateTodoList(todoListID, newTaskTitle)

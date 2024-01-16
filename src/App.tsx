@@ -42,6 +42,7 @@ function App() {
         setTasks({...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== tasksId)});
     };
 
+
     // create task
     const addTask = (todoListID: string, title: string) => {
         const newTask: TaskType = {
@@ -89,7 +90,7 @@ function App() {
                                 title={el.title}
                                 tasks={tasks[el.id]}
                                 removeTask={removeTask}
-                                callback={addTask}
+                                addTask={addTask}
                                 changeTaskStatus={changeTaskStatus}
                                 changeFilter={changeFilter}
                                 filter={el.filter}
