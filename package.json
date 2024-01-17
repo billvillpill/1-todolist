@@ -2,6 +2,7 @@
   "name": "1-lesson",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://billvillpill.github.io/1-todolist",
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -26,7 +27,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build -m 'Automatically update gh-pages [skip ci]'"
   },
   "eslintConfig": {
     "extends": [
