@@ -104,9 +104,11 @@ function App() {
     //UI интерфейс
     return (
         <div className="App">
+            {/*header*/}
             <ButtonAppBar />
             <div className='container'>
-                <AddItemForm callback={createTodolist}/>
+                {/* new TodoList*/}
+                <AddItemForm callback={createTodolist} placeholder={'text'}/>
                 <div className='flexWrapper'>
                     <div className='todoLists'>
                         {todoLists.map(el => {

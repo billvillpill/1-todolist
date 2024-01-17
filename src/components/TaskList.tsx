@@ -1,10 +1,69 @@
 import React, {ChangeEvent, FC} from 'react';
-import {MyButton} from './MyButton';
 import {TaskType} from './Todolist';
 import {FilterValuesType} from '../App';
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from './EditableSpan';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+    createTheme,
+    alpha,
+    getContrastRatio,
+    ThemeProvider,
+} from '@mui/material/styles';
+import {Stack} from '@mui/system';
+
+// Augment the palette to include a violet color
+declare module '@mui/material/styles' {
+    interface Palette {
+        secondary: Palette['secondary'];
+    }
+    interface PaletteOptions {
+        violet?: PaletteOptions['primary'];
+        secondary?: PaletteOptions['secondary'];
+    }
+}
+// Update the Button's color options to include a violet option
+declare module '@mui/material/Button' {
+    interface ButtonPropsColorOverrides {
+        violet: true;
+
+    }
+}
+
+const violetBase = '#7F00FF';
+const violetMain = alpha(violetBase, 0.7);
+const secondaryBase = '#ab47bc';
+const secondaryMain = alpha(secondaryBase, 0.5);
+
+const theme = createTheme({
+    palette: {
+        violet: {
+            main: violetMain,
+            light: alpha(violetBase, 0.5),
+            dark: alpha(violetBase, 0.9),
+            contrastText: getContrastRatio(violetMain, '#fff') > 4.5 ? '#fff' : '#111',
+
+        },
+        secondary: {
+            main: secondaryMain,
+            light: alpha(secondaryBase, 0.5),
+            dark: alpha(secondaryBase, 0.9),
+            contrastText: getContrastRatio(secondaryMain, '#fff') > 4.5 ? '#fff' : '#111',
+        },
+        background: {
+            paper: '#fff',
+        },
+        text: {
+            primary: '#173A5E',
+            secondary: '#46505A',
+        },
+        action: {
+            active: '#001E3C',
+        }
+    },
+});
+
 
 type TaskListPropsType = {
     todoListID: string
@@ -14,7 +73,6 @@ type TaskListPropsType = {
     filter: FilterValuesType
     changeFilter: (todoListID: string, value: FilterValuesType) => void
     updateTask: (todoListID: string, tasksId: string, newTaskTitle: string) => void
-
 }
 
 // элемент списка
@@ -42,7 +100,7 @@ export const TaskList: FC<TaskListPropsType> = ({
     //         }
     //     });
     /*обновление таски*/
-    const  updateTaskHandler = (tasksID: string, newTaskTitle: string) => updateTask(todoListID, tasksID, newTaskTitle)
+    const updateTaskHandler = (tasksID: string, newTaskTitle: string) => updateTask(todoListID, tasksID, newTaskTitle);
 
     // условный рендоринг
     const listItems: JSX.Element = filteredTasks.length === 0
@@ -57,17 +115,23 @@ export const TaskList: FC<TaskListPropsType> = ({
                     return (
                         <li key={t.id} className={t.isDone ? 'task' : 'taskDone'}>
                             <div>
-                                <Checkbox checked={t.isDone} onChange={onChangeTaskStatusHundler} />
+                                <Checkbox checked={t.isDone} onChange={onChangeTaskStatusHundler}/>
                                 {/*<input
                                     type="checkbox"
                                     checked={t.isDone}
                                     onChange={onChangeTaskStatusHundler}
                                 />*/}
-                                <EditableSpan oldTitle={t.title} callBack={(newTaskTitle)=> updateTaskHandler(t.id, newTaskTitle)}/>
+                                <EditableSpan oldTitle={t.title}
+                                              callBack={(newTaskTitle) => updateTaskHandler(t.id, newTaskTitle)}/>
 
                             </div>
-                            <MyButton name={'delete'} onClickHandler={onClickRemoveTask}
-                                      classes={t.isDone ? 'btnX-active' : 'btnX'}/>
+                            <ThemeProvider theme={theme}>
+                                <Button sx={{ "&:hover": { color: "red" }}} variant="outlined"  onClick={onClickRemoveTask}  startIcon={ <DeleteIcon /> }>
+                                    Delete
+                                </Button>
+                            </ThemeProvider>
+                            {/*<MyButton name={'delete'} onClickHandler={onClickRemoveTask}
+                                      classes={t.isDone ? 'btnX-active' : 'btnX'}/>*/}
                         </li>
                     );
                 })
@@ -81,11 +145,17 @@ export const TaskList: FC<TaskListPropsType> = ({
     return (
         <div className="taskList">
             {listItems}
-            <div className="mybuttons">
-                <Button variant='contained' color="secondary" onClick={onClickSetAllFilter} className={filter === 'all' ? 'btn-active' : 'btn'}>all</Button>
-                <Button variant='contained' color="success" onClick={onClickSetActiveFilter} className={filter === 'active' ? 'btn-active' : 'btn'}>active</Button>
-                <Button variant="contained" color="error" onClick={onClickSetCompletedFilter} className={filter === 'completed' ? 'btn-active' : 'btn'}>completed</Button>
-
+            <div className="myButtons">
+                <ThemeProvider theme={theme}>
+                    <Stack gap={2} direction="row" alignItems='space-around' justifyContent='center'>
+                        <Button variant="contained" size="small" onClick={onClickSetAllFilter}
+                            color={filter === 'all' ? 'violet' : 'secondary'}>all</Button>
+                        <Button variant="contained" size="small" onClick={onClickSetActiveFilter}
+                            color={filter === 'active' ? 'violet' : 'secondary'}>active</Button>
+                        <Button variant="contained" size="small" onClick={onClickSetCompletedFilter}
+                            color={filter === 'completed' ? 'violet' : 'secondary'}>completed</Button>
+                    </Stack>
+                </ThemeProvider>
                 {/*<MyButton*/}
                 {/*    name="all"*/}
                 {/*    onClickHandler={onClickSetAllFilter}*/}

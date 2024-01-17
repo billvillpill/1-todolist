@@ -5,6 +5,7 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Switch from '@mui/material/Switch';
 
 
 type TodolistPropsType = {
@@ -65,14 +66,19 @@ export const Todolist: FC<TodolistPropsType> = (
         updateTodoList(todoListID, newTaskTitle)
     }
 
+
+
     return (
         <div className={'todoList'}>
             <div className={'header'}>
+                {/*Заголовок todoList*/}
                 <h3><EditableSpan oldTitle={title} callBack={updateTodoListHandler} />
                 </h3>
-                <IconButton aria-label="delete">
-                    <DeleteIcon onClick={removeTodoListHundler} />
-                </IconButton>
+                {/*кнопка удаления todoList*/}
+                    <IconButton aria-label="delete" >
+                        <DeleteIcon onClick={removeTodoListHundler} sx={{ "&:hover": { color: "red" } }} />
+                    </IconButton>
+
                 {/*<MyButton*/}
                 {/*    name={"x"}*/}
                 {/*    onClickHandler={removeTodoListHundler}*/}
@@ -82,18 +88,20 @@ export const Todolist: FC<TodolistPropsType> = (
 
             <div className='taskList-info'>
                 <div>
+                    {/*показать или скрыть таски и кнопки all, active, completed*/}
                     <div><span>{isCollapsedTodo ? 'show' : 'hide'}</span></div>
-                    <input
+                    <Switch  defaultChecked={isCollapsedTodo} onChange={(e: ChangeEvent<HTMLInputElement>) => setIsCollapsedTodo(e.currentTarget.checked)} size="small" />
+                    {/*<input
                         type='checkbox'
                         checked={isCollapsedTodo}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setIsCollapsedTodo(e.currentTarget.checked)}
-                    />
+                    />*/}
                 </div>
                 <div>All task:<div className='info'><span>{tasks.length}</span></div></div>
             </div>
 
 
-            <AddItemForm callback={addTaskHandler} />
+            <AddItemForm callback={addTaskHandler} placeholder={'text'}/>
 
             {isCollapsedTodo ? null : tasksList}
         </div>

@@ -1,12 +1,11 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import {MyButton} from './MyButton';
-import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
 import TextField from '@mui/material/TextField';
-
-
+import AddTaskIcon from '@mui/icons-material/AddTask';
 
 type AddItemFormPropsType = {
     callback: (title: string) => void
+    placeholder: string
 }
 export const AddItemForm = (props: AddItemFormPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('')
@@ -23,7 +22,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         }
     }
 
-    const onKeyDownAddTeask = (event: KeyboardEvent<HTMLInputElement>) => {
+    const onKeyDownAddTask = (event: KeyboardEvent<HTMLInputElement>) => {
         event.key === 'Enter' && Boolean(newTaskTitle) && addTaskHandler()
     }
 
@@ -36,13 +35,6 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         }
         setNewTaskTitle('')
     }
-    const styles={
-        maxWidth: '30px',
-        maxHeight: '30px',
-        minWidth: '30px',
-        minHeight: '30px',
-        backgroundColor: '#000000'
-    }
 
     return (
         <>
@@ -51,25 +43,22 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                 {/*    type='text'*/}
                 {/*    value={newTaskTitle}*/}
                 {/*    onChange={onChangeSetTitle}*/}
-                {/*    onKeyDown={onKeyDownAddTeask}*/}
+                {/*    onKeyDown={onKeyDownAddTask}*/}
                 {/*    className={inputError || maxTitleLengthError ? 'inputError' : 'inputDefault' }*/}
                 {/*/>*/}
                 <TextField
-                    error={!!inputError}
+                    error={!!inputError || maxTitleLengthError}
                     size='small'
                     value={newTaskTitle}
                     onChange={onChangeSetTitle}
-                    onKeyDown={onKeyDownAddTeask}
+                    onKeyDown={onKeyDownAddTask}
                     id="outlined-basic"
-                    label={inputError ? inputError : 'type smth...'}
+                    label={inputError ? inputError : props.placeholder}
                     variant="outlined"
                 />
-                <Button
-                    variant="contained"
-                    onClick={addTaskHandler}
-                    disabled={!newTaskTitle || maxTitleLengthError}
-                    style={styles}
-                >+</Button>
+                    <Fab variant="extended" color="primary" size="small" onClick={addTaskHandler} disabled={!newTaskTitle || maxTitleLengthError}>
+                        <AddTaskIcon />
+                    </Fab>
                 {/*<MyButton*/}
                 {/*    name={"+"}*/}
                 {/*    onClickHandler={addTaskHandler}*/}

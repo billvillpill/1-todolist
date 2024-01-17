@@ -1,4 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 type EditableSpanProps = {
     oldTitle: string
@@ -6,18 +8,29 @@ type EditableSpanProps = {
 }
 export const EditableSpan = (props: EditableSpanProps) => {
     const [edit, setEdit] = useState(false);
-    const [newTaskTitle, setNewTaskTitle] = useState(props.oldTitle)
+    const [newTaskTitle, setNewTaskTitle] = useState(props.oldTitle);
     const activeEditHundler = () => {
-        if(edit) props.callBack(newTaskTitle)
-        setEdit(!edit)
+        if (edit) props.callBack(newTaskTitle);
+        setEdit(!edit);
 
-    }
+    };
     const onChangeSetTitle = (event: ChangeEvent<HTMLInputElement>) => {
-        setNewTaskTitle(event.currentTarget.value)
-    }
+        setNewTaskTitle(event.currentTarget.value);
+    };
     return (
         edit
-            ? <input value={newTaskTitle} onBlur={activeEditHundler} autoFocus onChange={onChangeSetTitle}/>
+            ? <TextField
+                size="small"
+                value={newTaskTitle}
+                onBlur={activeEditHundler}
+                autoFocus
+                onChange={onChangeSetTitle}
+                id="outlined-basic"
+                label='Enter a new name'
+                variant="filled"
+            />
+
+            /*<input value={newTaskTitle} onBlur={activeEditHundler} autoFocus onChange={onChangeSetTitle}/>*/
             : <span onDoubleClick={activeEditHundler}>{props.oldTitle}</span>
     );
 };
